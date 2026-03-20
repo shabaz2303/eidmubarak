@@ -15,8 +15,6 @@ body {
 /* 🖼️ BACKGROUND */
 .bg {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   z-index: -2;
@@ -27,32 +25,37 @@ body {
   background-position: center;
 }
 
-/* 🌙 MOON (BEHIND TEXT NOW) */
+/* 🌙 MOON */
 .moon {
   position: absolute;
-  top: 5%;
+  top: 4%;
   left: 50%;
   width: 85px;
   transform: translateX(-50%);
+  z-index: 1;
   filter: drop-shadow(0 0 25px gold);
-  animation: floatMoon 4s ease-in-out infinite;
-  z-index: 1; /* BELOW TEXT */
 }
 
-@keyframes floatMoon {
-  0% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 10px); }
-  100% { transform: translate(-50%, 0); }
-}
+/* 💎 GLASS CARD */
+.glass {
+  position: absolute;
+  top: 20%; /* PUSHED DOWN = NO OVERLAP */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 420px;
+  padding: 20px;
 
-/* 💎 TEXT */
-.text {
-  position: relative;
-  z-index: 2; /* ABOVE MOON */
-  top: 10%;
-  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 40px rgba(255,215,0,0.2);
+
+  z-index: 2;
   text-align: center;
-  padding: 0 15px;
 }
 
 /* ✨ COMMON ANIMATION */
@@ -63,13 +66,10 @@ body {
 }
 
 @keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* 💎 DIAMOND EFFECT */
+/* 💎 DIAMOND */
 .diamond {
   position: relative;
   display: inline-block;
@@ -83,12 +83,7 @@ body {
   left: -75%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,0.9),
-    transparent
-  );
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.9), transparent);
   transform: skewX(-20deg);
   animation: shine 4s infinite;
 }
@@ -98,45 +93,38 @@ body {
   100% { left: 125%; }
 }
 
-/* 🎯 TEXT STYLES */
+/* TEXT */
 .main {
-  font-size: 34px;
-  text-shadow:
-    0 0 20px gold,
-    0 0 60px gold,
-    0 0 100px rgba(255,215,0,0.8);
+  font-size: 28px;
+  text-shadow: 0 0 20px gold, 0 0 60px gold;
 }
 
 .sub {
-  font-size: 26px;
-  margin-top: 5px;
+  font-size: 22px;
 }
 
 .line {
-  margin-top: 15px;
-  font-size: 15px;
+  font-size: 14px;
+  margin-top: 10px;
   color: #ddd;
-  line-height: 1.6;
 }
 
 .small {
-  font-size: 18px;
-  margin-top: 10px;
+  font-size: 16px;
 }
 
 .final {
-  margin-top: 20px;
-  font-size: 22px;
-  text-shadow: 0 0 20px gold;
+  margin-top: 15px;
+  font-size: 18px;
 }
 
 .from {
-  margin-top: 20px;
-  letter-spacing: 3px;
-  text-shadow: 0 0 10px gold;
+  margin-top: 15px;
+  font-size: 14px;
+  letter-spacing: 2px;
 }
 
-/* ⏱️ SYNC TIMING */
+/* ⏱️ SYNC */
 .main { animation-delay: 0.5s; }
 .sub { animation-delay: 1.5s; }
 .l1 { animation-delay: 2.5s; }
@@ -173,7 +161,7 @@ body {
 }
 
 @keyframes ripple {
-  from { width: 10px; height: 10px; opacity: 1; }
+  from { width: 10px; height: 10px; }
   to { width: 200px; height: 200px; opacity: 0; }
 }
 </style>
@@ -185,28 +173,18 @@ body {
 
 <img src="moon1.png" class="moon">
 
-<div class="text">
+<div class="glass">
 
   <div class="arabic main diamond">👑🌙✨ 𝕰𝖎𝖉 𝑀𝓊𝒷𝒶𝓇𝒶𝓀 ✨🌙👑</div>
   <div class="arabic sub">عِيد مُبَارَك 🤍</div>
 
-  <div class="line l1">𝓣𝓪𝓺𝓪𝓫𝓫𝓪𝓵 𝓐𝓵𝓵𝓪𝓱𝓾 𝓶𝓲𝓷𝓷𝓪 𝔀𝓪 𝓶𝓲𝓷𝓴𝓾𝓶</div>
-  <div class="arabic small l2">تَقَبَّلَ اللَّهُ مِنَّا وَمِنكُمْ صَالِحَ الأَعْمَال</div>
+  <div class="line l1">𝓣𝓪𝓺𝓪𝓫𝓫𝓪𝓵 𝓐𝓵𝓵𝓪𝓱𝓾 𝓶𝓲𝓷𝓷𝓪</div>
+  <div class="arabic small l2">تَقَبَّلَ اللَّهُ مِنَّا</div>
 
-  <div class="line l3">
-    𝑀𝒶𝓎 𝒜𝓁𝓁𝒶𝒽 (ﷻ) 𝒶𝒸𝒸𝑒𝓅𝓉 𝑜𝓊𝓇 𝓅𝓇𝒶𝓎𝑒𝓇𝓈,<br>
-    𝑜𝓊𝓇 𝒻𝒶𝓈𝓉𝒾𝓃𝑔 & bless us with barakah ✨
-  </div>
+  <div class="line l3">May Allah accept our prayers ✨</div>
+  <div class="arabic small l4">اللّهُمَّ اجْعَلْ هٰذَا الْعِيدَ فَرَحًا</div>
 
-  <div class="arabic small l4">
-    اللّهُمَّ اجْعَلْ هٰذَا الْعِيدَ فَرَحًا وَسُرُورًا<br>
-    وَامْلَأْ قُلُوبَنَا سَلَامًا
-  </div>
-
-  <div class="line l5">
-    May this Eid bring peace 🤍<br>
-    light 🌙 and prosperity 💫
-  </div>
+  <div class="line l5">Peace 🤍 Light 🌙 Prosperity 💫</div>
 
   <div class="line l6">𝓚𝓾𝓵𝓵𝓾 𝓪𝓪𝓶𝓲𝓷 ✨</div>
   <div class="arabic small l7">كُلُّ عَامٍ وَأَنْتُمْ بِخَيْر</div>
@@ -221,7 +199,6 @@ body {
 </audio>
 
 <script>
-
 function startAll(e){
   document.getElementById("music").play();
 
@@ -240,7 +217,6 @@ for(let i=0;i<60;i++){
   p.style.animationDuration=(4+Math.random()*4)+"s";
   document.body.appendChild(p);
 }
-
 </script>
 
 </body>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eid Mubarak</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at top, #0a0a0a, #000);
+  font-family: serif;
+  text-align: center;
+  color: gold;
+}
+
+/* 🌙 Moon */
+.moon {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle, gold, transparent);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  animation: pulse 3s infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.6; }
+  to { opacity: 1; transform: translateX(-50%) scale(1.1); }
+}
+
+/* 🏮 Lantern */
+.lantern {
+  position: absolute;
+  top: -40px;
+  width: 30px;
+  height: 50px;
+  background: gold;
+  border-radius: 10px;
+  box-shadow: 0 0 20px gold;
+  animation: swing 4s infinite ease-in-out;
+}
+
+@keyframes swing {
+  0% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  100% { transform: rotate(-10deg); }
+}
+
+/* ✨ Text */
+.text {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  opacity: 0;
+  animation: fadeUp 2.5s ease forwards 1s;
+  padding: 0 10px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.arabic {
+  font-size: 34px;
+}
+
+.english {
+  font-size: 28px;
+  font-style: italic;
+}
+
+.from {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* 💎 Glow */
+.glow {
+  text-shadow: 0 0 10px gold, 0 0 20px gold;
+}
+
+/* ✨ Stars */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: gold;
+  animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+/* 💠 Tap Spark */
+.spark {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: gold;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: explode 1s forwards;
+}
+
+@keyframes explode {
+  to {
+    transform: scale(4) translateY(-40px);
+    opacity: 0;
+  }
+}
+
+/* 🎵 Button */
+.music-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: gold;
+  color: black;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 18px;
+  border: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="moon"></div>
+<div class="lantern" style="left:20%"></div>
+<div class="lantern" style="left:80%"></div>
+
+<div class="text">
+  <div class="arabic glow">عِيد مُبَارَك</div>
+  <div class="english glow">Eid Mubarak</div>
+  <div class="from glow">From SHABAZ & FAMILY</div>
+</div>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+<audio id="bgMusic" loop>
+  <source src="https://www.computerhope.com/jargon/m/example.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* Stars */
+for(let i=0;i<60;i++){
+  let s=document.createElement("div");
+  s.className="star";
+  s.style.top=Math.random()*100+"%";
+  s.style.left=Math.random()*100+"%";
+  document.body.appendChild(s);
+}
+
+/* Tap spark effect */
+document.addEventListener("click", e=>{
+  let spark=document.createElement("div");
+  spark.className="spark";
+  spark.style.left=e.clientX+"px";
+  spark.style.top=e.clientY+"px";
+  document.body.appendChild(spark);
+  setTimeout(()=>spark.remove(),1000);
+});
+
+/* Music toggle */
+let music=document.getElementById("bgMusic");
+function toggleMusic(){
+  if(music.paused){
+    music.play();
+  } else {
+    music.pause();
+  }
+}
+
+</script>
+
+</body>
+</html>

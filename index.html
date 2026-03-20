@@ -12,11 +12,14 @@ body {
   color: gold;
 }
 
-/* 🖼️ BG */
+/* 🖼️ BACKGROUND */
 .bg {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  z-index: -2;
   background:
     linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.95)),
     url('herobg.jpg');
@@ -24,7 +27,7 @@ body {
   background-position: center;
 }
 
-/* 🌙 MOON */
+/* 🌙 MOON (BEHIND TEXT NOW) */
 .moon {
   position: absolute;
   top: 5%;
@@ -33,6 +36,7 @@ body {
   transform: translateX(-50%);
   filter: drop-shadow(0 0 25px gold);
   animation: floatMoon 4s ease-in-out infinite;
+  z-index: 1; /* BELOW TEXT */
 }
 
 @keyframes floatMoon {
@@ -43,14 +47,15 @@ body {
 
 /* 💎 TEXT */
 .text {
-  position: absolute;
-  top: 12%;
+  position: relative;
+  z-index: 2; /* ABOVE MOON */
+  top: 10%;
   width: 100%;
   text-align: center;
   padding: 0 15px;
 }
 
-/* ✨ COMMON */
+/* ✨ COMMON ANIMATION */
 .line, .arabic, .final, .from {
   opacity: 0;
   transform: translateY(20px);
@@ -64,10 +69,42 @@ body {
   }
 }
 
-/* 🎯 SIZES */
+/* 💎 DIAMOND EFFECT */
+.diamond {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.diamond::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.9),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: shine 4s infinite;
+}
+
+@keyframes shine {
+  0% { left: -75%; }
+  100% { left: 125%; }
+}
+
+/* 🎯 TEXT STYLES */
 .main {
   font-size: 34px;
-  text-shadow: 0 0 20px gold, 0 0 60px gold;
+  text-shadow:
+    0 0 20px gold,
+    0 0 60px gold,
+    0 0 100px rgba(255,215,0,0.8);
 }
 
 .sub {
@@ -99,7 +136,7 @@ body {
   text-shadow: 0 0 10px gold;
 }
 
-/* ⏱️ ANIMATION DELAYS (ROYAL SYNC) */
+/* ⏱️ SYNC TIMING */
 .main { animation-delay: 0.5s; }
 .sub { animation-delay: 1.5s; }
 .l1 { animation-delay: 2.5s; }
@@ -145,36 +182,36 @@ body {
 <body onclick="startAll(event)">
 
 <div class="bg"></div>
-<img src="moon1.jpg" class="moon">
+
+<img src="moon.png" class="moon">
 
 <div class="text">
 
-  <div class="arabic main">👑🌙✨ 𝕰𝖎𝖉 𝑀𝓊𝒷𝒶𝓇𝒶𝓀 ✨🌙👑</div>
+  <div class="arabic main diamond">👑🌙✨ 𝕰𝖎𝖉 𝑀𝓊𝒷𝒶𝓇𝒶𝓀 ✨🌙👑</div>
   <div class="arabic sub">عِيد مُبَارَك 🤍</div>
 
   <div class="line l1">𝓣𝓪𝓺𝓪𝓫𝓫𝓪𝓵 𝓐𝓵𝓵𝓪𝓱𝓾 𝓶𝓲𝓷𝓷𝓪 𝔀𝓪 𝓶𝓲𝓷𝓴𝓾𝓶</div>
   <div class="arabic small l2">تَقَبَّلَ اللَّهُ مِنَّا وَمِنكُمْ صَالِحَ الأَعْمَال</div>
 
   <div class="line l3">
-    𝑀𝒶𝓎 𝒜𝓁𝓁𝒶𝒽 (ﷻ) 𝒶𝒸𝒸𝑒𝓅𝓉 𝑜𝓊𝓇 𝓅𝓇𝒶𝓎𝑒𝓇𝓈, 𝑜𝓊𝓇 𝒻𝒶𝓈𝓉𝒾𝓃𝑔,<br>
-    𝒶𝓃𝒹 𝒷𝓁𝑒𝓈𝓈 𝓊𝓈 𝓌𝒾𝓉𝒽 𝒷𝒶𝓇𝒶𝓀𝒶𝒽, 𝓇𝒶𝒽𝓂𝒶𝒽 & 𝓃𝑜𝑜𝓇 ✨
+    𝑀𝒶𝓎 𝒜𝓁𝓁𝒶𝒽 (ﷻ) 𝒶𝒸𝒸𝑒𝓅𝓉 𝑜𝓊𝓇 𝓅𝓇𝒶𝓎𝑒𝓇𝓈,<br>
+    𝑜𝓊𝓇 𝒻𝒶𝓈𝓉𝒾𝓃𝑔 & bless us with barakah ✨
   </div>
 
   <div class="arabic small l4">
     اللّهُمَّ اجْعَلْ هٰذَا الْعِيدَ فَرَحًا وَسُرُورًا<br>
-    وَامْلَأْ قُلُوبَنَا سَلَامًا وَطُمَأْنِينَةً
+    وَامْلَأْ قُلُوبَنَا سَلَامًا
   </div>
 
   <div class="line l5">
-    𝓜𝓪𝔂 𝓽𝓱𝓲𝓼 𝓔𝓲𝓭 𝓫𝓻𝓲𝓷𝓰 𝓹𝓮𝓪𝓬𝓮 𝓽𝓸 𝔂𝓸𝓾𝓻 𝓱𝓮𝓪𝓻𝓽 🤍,<br>
-    𝓵𝓲𝓰𝓱𝓽 𝓽𝓸 𝔂𝓸𝓾𝓻 𝓼𝓸𝓾𝓵 🌙,<br>
-    𝓪𝓷𝓭 𝓹𝓻𝓸𝓼𝓹𝓮𝓻𝓲𝓽𝔂 𝓽𝓸 𝔂𝓸𝓾𝓻 𝓱𝓸𝓶𝓮 💫
+    May this Eid bring peace 🤍<br>
+    light 🌙 and prosperity 💫
   </div>
 
-  <div class="line l6">𝓚𝓾𝓵𝓵𝓾 𝓪𝓪𝓶𝓲𝓷 𝔀𝓪 𝓪𝓷𝓽𝓾𝓶 𝓫𝓲𝓴𝓱𝓪𝓲𝓻 ✨</div>
+  <div class="line l6">𝓚𝓾𝓵𝓵𝓾 𝓪𝓪𝓶𝓲𝓷 ✨</div>
   <div class="arabic small l7">كُلُّ عَامٍ وَأَنْتُمْ بِخَيْر</div>
 
-  <div class="final">💎🌙 𝙴𝙸𝙳 𝑀𝓊𝒷𝒶𝓇𝒶𝓀 🌙💎</div>
+  <div class="final diamond">💎🌙 𝙴𝙸𝙳 𝑀𝓊𝒷𝒶𝓇𝒶𝓀 🌙💎</div>
   <div class="from">— SHABAZ & FAMILY —</div>
 
 </div>
@@ -185,7 +222,6 @@ body {
 
 <script>
 
-/* 🎵 MUSIC + RIPPLE */
 function startAll(e){
   document.getElementById("music").play();
 
@@ -197,7 +233,6 @@ function startAll(e){
   setTimeout(()=>r.remove(),1000);
 }
 
-/* ✨ PARTICLES */
 for(let i=0;i<60;i++){
   let p=document.createElement("div");
   p.className="particle";

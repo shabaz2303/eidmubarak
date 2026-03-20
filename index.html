@@ -8,28 +8,31 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: radial-gradient(circle at center, #000000 40%, #020202 100%);
+  background: #000000;
   font-family: 'Georgia', serif;
   color: gold;
 }
 
-/* 🌌 Canvas */
+/* 🌌 Particle Canvas */
 canvas {
   position: fixed;
   top: 0;
   left: 0;
 }
 
-/* 🌙 Crescent */
+/* 🌙 3D Moon Effect */
 .moon {
   position: absolute;
   top: 8%;
   left: 50%;
-  width: 110px;
-  height: 110px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  box-shadow: -30px 0 0 6px gold;
-  transform: translateX(-50%);
+  background: radial-gradient(circle at 30% 30%, #fff8dc, gold 40%, transparent 70%);
+  box-shadow: -35px 0 0 8px rgba(255,215,0,0.9),
+              0 0 40px gold,
+              0 0 80px rgba(255,215,0,0.5);
+  transform: translateX(-50%) rotate(-20deg);
 }
 
 /* 🏮 Lantern */
@@ -40,7 +43,7 @@ canvas {
   height: 60px;
   background: linear-gradient(gold, #ffcc00);
   border-radius: 10px;
-  box-shadow: 0 0 30px gold;
+  box-shadow: 0 0 40px gold;
   animation: swing 4s infinite ease-in-out;
 }
 
@@ -50,46 +53,57 @@ canvas {
   100% { transform: rotate(-12deg); }
 }
 
-/* 💎 Text block */
+/* 💎 TEXT */
 .text {
   position: absolute;
-  top: 32%;
+  top: 30%;
   width: 100%;
   text-align: center;
-  opacity: 0;
-  animation: fadeUp 2.5s forwards 1s;
+  animation: fade 2s ease forwards;
 }
 
-@keyframes fadeUp {
+@keyframes fade {
   from { opacity: 0; transform: translateY(60px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ✨ Arabic Calligraphy Glow */
 .arabic {
-  font-size: 42px;
-  text-shadow: 0 0 20px gold, 0 0 40px gold;
+  font-size: 46px;
+  font-weight: bold;
+  text-shadow:
+    0 0 10px gold,
+    0 0 20px gold,
+    0 0 40px gold,
+    0 0 80px rgba(255,215,0,0.8);
 }
 
+/* 💎 English Calligraphy */
 .english {
-  font-size: 34px;
+  font-size: 38px;
   margin-top: 10px;
+  font-style: italic;
   background: linear-gradient(90deg, gold, white, gold);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px gold;
 }
 
+/* 📝 Dua */
 .dua {
   margin-top: 20px;
   font-size: 15px;
-  padding: 0 20px;
-  line-height: 1.6;
-  color: #ddd;
+  padding: 0 25px;
+  color: #ccc;
+  line-height: 1.7;
 }
 
+/* 👑 From */
 .from {
   margin-top: 15px;
   font-size: 16px;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px gold;
 }
 
 /* ✨ Spark */
@@ -104,22 +118,9 @@ canvas {
 
 @keyframes explode {
   to {
-    transform: scale(5) translateY(-50px);
+    transform: scale(6) translateY(-60px);
     opacity: 0;
   }
-}
-
-/* 🎵 Button */
-.music-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: gold;
-  border-radius: 50%;
-  width: 55px;
-  height: 55px;
-  font-size: 20px;
-  border: none;
 }
 </style>
 </head>
@@ -129,73 +130,68 @@ canvas {
 <canvas id="bg"></canvas>
 
 <div class="moon"></div>
-<div class="lantern" style="left:10%"></div>
+<div class="lantern" style="left:12%"></div>
 <div class="lantern" style="left:85%"></div>
 
 <div class="text">
   <div class="arabic">عِيد مُبَارَك</div>
-  <div class="english">EID MUBARAK</div>
+  <div class="english">Eid Mubarak</div>
 
   <div class="dua">
     Taqabbal Allahu minna wa minkum صالح الأعمال 🤍<br><br>
-    May Allah accept our prayers, forgive our sins,  
-    and fill our hearts with peace, noor and barakah ✨<br><br>
-    May this Eid bring happiness, prosperity  
-    and endless blessings into your life 🌙
+    May Allah accept our prayers, forgive our sins,<br>
+    and fill our lives with noor, barakah and peace ✨
   </div>
 
   <div class="from">— SHABAZ & FAMILY —</div>
 </div>
 
-<button class="music-btn" onclick="toggleMusic()">🎵</button>
-
-<audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_6c1c9a9f4b.mp3" type="audio/mpeg">
-</audio>
-
 <script>
 
-/* 🌌 Particle background */
+/* 🌌 GOLD PARTICLE SYSTEM */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let p = [];
-for(let i=0;i<120;i++){
-  p.push({
+let particles = [];
+
+for(let i=0;i<150;i++){
+  particles.push({
     x: Math.random()*canvas.width,
     y: Math.random()*canvas.height,
     r: Math.random()*2,
-    d: Math.random()*1
+    d: Math.random()*1.2
   });
 }
 
 function draw(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle="gold";
-  p.forEach(i=>{
+
+  particles.forEach(p=>{
     ctx.beginPath();
-    ctx.arc(i.x,i.y,i.r,0,Math.PI*2);
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
     ctx.fill();
   });
+
   update();
 }
 
 function update(){
-  p.forEach(i=>{
-    i.y+=i.d;
-    if(i.y>canvas.height){
-      i.y=0;
-      i.x=Math.random()*canvas.width;
+  particles.forEach(p=>{
+    p.y += p.d;
+    if(p.y > canvas.height){
+      p.y = 0;
+      p.x = Math.random()*canvas.width;
     }
   });
 }
 
 setInterval(draw,30);
 
-/* ✨ Tap spark */
+/* ✨ Tap Spark */
 document.addEventListener("click", e=>{
   let s=document.createElement("div");
   s.className="spark";
@@ -204,12 +200,6 @@ document.addEventListener("click", e=>{
   document.body.appendChild(s);
   setTimeout(()=>s.remove(),1000);
 });
-
-/* 🎵 Music */
-let music=document.getElementById("bgMusic");
-function toggleMusic(){
-  music.paused ? music.play() : music.pause();
-}
 
 </script>
 

@@ -12,7 +12,7 @@ body {
   color: gold;
 }
 
-/* 🖼️ IMAGE BG */
+/* 🖼️ BG */
 .bg {
   position: fixed;
   width: 100%;
@@ -27,62 +27,90 @@ body {
 /* 🌙 MOON */
 .moon {
   position: absolute;
-  top: 6%;
+  top: 5%;
   left: 50%;
-  width: 90px;
+  width: 85px;
   transform: translateX(-50%);
   filter: drop-shadow(0 0 25px gold);
   animation: floatMoon 4s ease-in-out infinite;
 }
 
 @keyframes floatMoon {
-  0% { transform: translate(-50%, 0px); }
+  0% { transform: translate(-50%, 0); }
   50% { transform: translate(-50%, 10px); }
-  100% { transform: translate(-50%, 0px); }
+  100% { transform: translate(-50%, 0); }
 }
 
 /* 💎 TEXT */
 .text {
   position: absolute;
-  top: 28%;
+  top: 12%;
   width: 100%;
   text-align: center;
+  padding: 0 15px;
 }
 
-/* ✍️ Arabic */
-.arabic {
-  font-size: 48px;
+/* ✨ COMMON */
+.line, .arabic, .final, .from {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🎯 SIZES */
+.main {
+  font-size: 34px;
   text-shadow: 0 0 20px gold, 0 0 60px gold;
 }
 
-/* 💠 English */
-.english {
-  font-size: 38px;
-  margin-top: 10px;
-  background: linear-gradient(90deg, gold, white, gold);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.sub {
+  font-size: 26px;
+  margin-top: 5px;
 }
 
-/* ⌨️ TYPEWRITER */
-.typewriter {
-  margin-top: 20px;
+.line {
+  margin-top: 15px;
   font-size: 15px;
   color: #ddd;
-  width: 85%;
-  margin-left: auto;
-  margin-right: auto;
-  border-right: 2px solid gold;
-  white-space: nowrap;
-  overflow: hidden;
+  line-height: 1.6;
 }
 
-/* 👑 FROM */
+.small {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.final {
+  margin-top: 20px;
+  font-size: 22px;
+  text-shadow: 0 0 20px gold;
+}
+
 .from {
-  margin-top: 25px;
+  margin-top: 20px;
   letter-spacing: 3px;
   text-shadow: 0 0 10px gold;
 }
+
+/* ⏱️ ANIMATION DELAYS (ROYAL SYNC) */
+.main { animation-delay: 0.5s; }
+.sub { animation-delay: 1.5s; }
+.l1 { animation-delay: 2.5s; }
+.l2 { animation-delay: 3.5s; }
+.l3 { animation-delay: 4.5s; }
+.l4 { animation-delay: 5.5s; }
+.l5 { animation-delay: 6.5s; }
+.l6 { animation-delay: 7.5s; }
+.l7 { animation-delay: 8.5s; }
+.final { animation-delay: 9.5s; }
+.from { animation-delay: 10.5s; }
 
 /* ✨ PARTICLES */
 .particle {
@@ -117,16 +145,38 @@ body {
 <body onclick="startAll(event)">
 
 <div class="bg"></div>
-
 <img src="moon.png" class="moon">
 
 <div class="text">
-  <div class="arabic">عِيد مُبَارَك</div>
-  <div class="english">Eid Mubarak</div>
 
-  <div class="typewriter" id="type"></div>
+  <div class="arabic main">👑🌙✨ 𝕰𝖎𝖉 𝑀𝓊𝒷𝒶𝓇𝒶𝓀 ✨🌙👑</div>
+  <div class="arabic sub">عِيد مُبَارَك 🤍</div>
 
+  <div class="line l1">𝓣𝓪𝓺𝓪𝓫𝓫𝓪𝓵 𝓐𝓵𝓵𝓪𝓱𝓾 𝓶𝓲𝓷𝓷𝓪 𝔀𝓪 𝓶𝓲𝓷𝓴𝓾𝓶</div>
+  <div class="arabic small l2">تَقَبَّلَ اللَّهُ مِنَّا وَمِنكُمْ صَالِحَ الأَعْمَال</div>
+
+  <div class="line l3">
+    𝑀𝒶𝓎 𝒜𝓁𝓁𝒶𝒽 (ﷻ) 𝒶𝒸𝒸𝑒𝓅𝓉 𝑜𝓊𝓇 𝓅𝓇𝒶𝓎𝑒𝓇𝓈, 𝑜𝓊𝓇 𝒻𝒶𝓈𝓉𝒾𝓃𝑔,<br>
+    𝒶𝓃𝒹 𝒷𝓁𝑒𝓈𝓈 𝓊𝓈 𝓌𝒾𝓉𝒽 𝒷𝒶𝓇𝒶𝓀𝒶𝒽, 𝓇𝒶𝒽𝓂𝒶𝒽 & 𝓃𝑜𝑜𝓇 ✨
+  </div>
+
+  <div class="arabic small l4">
+    اللّهُمَّ اجْعَلْ هٰذَا الْعِيدَ فَرَحًا وَسُرُورًا<br>
+    وَامْلَأْ قُلُوبَنَا سَلَامًا وَطُمَأْنِينَةً
+  </div>
+
+  <div class="line l5">
+    𝓜𝓪𝔂 𝓽𝓱𝓲𝓼 𝓔𝓲𝓭 𝓫𝓻𝓲𝓷𝓰 𝓹𝓮𝓪𝓬𝓮 𝓽𝓸 𝔂𝓸𝓾𝓻 𝓱𝓮𝓪𝓻𝓽 🤍,<br>
+    𝓵𝓲𝓰𝓱𝓽 𝓽𝓸 𝔂𝓸𝓾𝓻 𝓼𝓸𝓾𝓵 🌙,<br>
+    𝓪𝓷𝓭 𝓹𝓻𝓸𝓼𝓹𝓮𝓻𝓲𝓽𝔂 𝓽𝓸 𝔂𝓸𝓾𝓻 𝓱𝓸𝓶𝓮 💫
+  </div>
+
+  <div class="line l6">𝓚𝓾𝓵𝓵𝓾 𝓪𝓪𝓶𝓲𝓷 𝔀𝓪 𝓪𝓷𝓽𝓾𝓶 𝓫𝓲𝓴𝓱𝓪𝓲𝓻 ✨</div>
+  <div class="arabic small l7">كُلُّ عَامٍ وَأَنْتُمْ بِخَيْر</div>
+
+  <div class="final">💎🌙 𝙴𝙸𝙳 𝑀𝓊𝒷𝒶𝓇𝒶𝓀 🌙💎</div>
   <div class="from">— SHABAZ & FAMILY —</div>
+
 </div>
 
 <audio id="music" loop>
@@ -134,19 +184,6 @@ body {
 </audio>
 
 <script>
-
-/* ⌨️ TYPEWRITER */
-let txt = "Taqabbal Allahu minna wa minkum صالح الأعمال 🤍   May Allah fill your life with noor, barakah and peace ✨   Eid Mubarak 🌙";
-
-let i=0;
-function type(){
-  if(i<txt.length){
-    document.getElementById("type").innerHTML += txt.charAt(i);
-    i++;
-    setTimeout(type,35);
-  }
-}
-type();
 
 /* 🎵 MUSIC + RIPPLE */
 function startAll(e){

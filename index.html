@@ -40,7 +40,7 @@ body {
   100% { transform: translateY(0); }
 }
 
-/* 💠 DULL GLASS */
+/* 💠 GLASS (DULL) */
 .glass {
   margin-top: 20px;
   width: 90%;
@@ -126,7 +126,7 @@ body {
   letter-spacing: 2px;
 }
 
-/* ⏱️ ANIMATION TIMING */
+/* ⏱️ TIMING */
 .main { animation-delay: 0.5s; }
 .sub { animation-delay: 1.5s; }
 .l1 { animation-delay: 2.5s; }
@@ -166,12 +166,6 @@ body {
   from { width: 10px; height: 10px; }
   to { width: 200px; height: 200px; opacity: 0; }
 }
-
-/* 📱 SMALL SCREEN FIX */
-@media (max-height: 700px) {
-  .moon { width: 65px; }
-  .glass { padding: 15px; }
-}
 </style>
 </head>
 
@@ -200,14 +194,28 @@ body {
 
 </div>
 
-<audio id="music" loop>
+<!-- 🎵 AUDIO -->
+<audio id="music" loop preload="auto">
   <source src="eidmub.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-function startAll(e){
-  document.getElementById("music").play();
+let musicStarted = false;
 
+function startAll(e){
+
+  if(!musicStarted){
+    let audio = document.getElementById("music");
+
+    audio.muted = false;
+    audio.play().then(()=>{
+      musicStarted = true;
+    }).catch(()=>{
+      document.body.addEventListener('touchstart', playMusicOnce);
+    });
+  }
+
+  // ripple
   let r=document.createElement("div");
   r.className="ripple";
   r.style.left=e.clientX+"px";
@@ -216,6 +224,13 @@ function startAll(e){
   setTimeout(()=>r.remove(),1000);
 }
 
+function playMusicOnce(){
+  let audio = document.getElementById("music");
+  audio.play();
+  document.body.removeEventListener('touchstart', playMusicOnce);
+}
+
+// particles
 for(let i=0;i<60;i++){
   let p=document.createElement("div");
   p.className="particle";

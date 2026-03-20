@@ -8,49 +8,20 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: #000000;
-  font-family: 'Georgia', serif;
+  font-family: serif;
   color: gold;
 }
 
-/* 🌌 Particle Canvas */
-canvas {
+/* 🖼️ HERO BACKGROUND */
+.hero {
   position: fixed;
-  top: 0;
-  left: 0;
-}
-
-/* 🌙 3D Moon Effect */
-.moon {
-  position: absolute;
-  top: 8%;
-  left: 50%;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff8dc, gold 40%, transparent 70%);
-  box-shadow: -35px 0 0 8px rgba(255,215,0,0.9),
-              0 0 40px gold,
-              0 0 80px rgba(255,215,0,0.5);
-  transform: translateX(-50%) rotate(-20deg);
-}
-
-/* 🏮 Lantern */
-.lantern {
-  position: absolute;
-  top: -60px;
-  width: 40px;
-  height: 60px;
-  background: linear-gradient(gold, #ffcc00);
-  border-radius: 10px;
-  box-shadow: 0 0 40px gold;
-  animation: swing 4s infinite ease-in-out;
-}
-
-@keyframes swing {
-  0% { transform: rotate(-12deg); }
-  50% { transform: rotate(12deg); }
-  100% { transform: rotate(-12deg); }
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.95)),
+    url('https://images.unsplash.com/photo-1587613752236-5f0c5c1b8c1d'); /* change image */
+  background-size: cover;
+  background-position: center;
 }
 
 /* 💎 TEXT */
@@ -67,18 +38,11 @@ canvas {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ✨ Arabic Calligraphy Glow */
 .arabic {
   font-size: 46px;
-  font-weight: bold;
-  text-shadow:
-    0 0 10px gold,
-    0 0 20px gold,
-    0 0 40px gold,
-    0 0 80px rgba(255,215,0,0.8);
+  text-shadow: 0 0 20px gold, 0 0 50px gold;
 }
 
-/* 💎 English Calligraphy */
 .english {
   font-size: 38px;
   margin-top: 10px;
@@ -86,19 +50,16 @@ canvas {
   background: linear-gradient(90deg, gold, white, gold);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 20px gold;
 }
 
-/* 📝 Dua */
 .dua {
   margin-top: 20px;
   font-size: 15px;
   padding: 0 25px;
-  color: #ccc;
+  color: #ddd;
   line-height: 1.7;
 }
 
-/* 👑 From */
 .from {
   margin-top: 15px;
   font-size: 16px;
@@ -106,32 +67,26 @@ canvas {
   text-shadow: 0 0 10px gold;
 }
 
-/* ✨ Spark */
-.spark {
+/* ✨ GOLD PARTICLES */
+.particle {
   position: absolute;
-  width: 6px;
-  height: 6px;
+  width: 3px;
+  height: 3px;
   background: gold;
   border-radius: 50%;
-  animation: explode 1s forwards;
+  animation: float 6s linear infinite;
 }
 
-@keyframes explode {
-  to {
-    transform: scale(6) translateY(-60px);
-    opacity: 0;
-  }
+@keyframes float {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
-
-<div class="moon"></div>
-<div class="lantern" style="left:12%"></div>
-<div class="lantern" style="left:85%"></div>
+<div class="hero"></div>
 
 <div class="text">
   <div class="arabic">عِيد مُبَارَك</div>
@@ -146,60 +101,21 @@ canvas {
   <div class="from">— SHABAZ & FAMILY —</div>
 </div>
 
+<!-- 🎵 YOUR MUSIC -->
+<audio autoplay loop>
+  <source src="YOUR-MUSIC.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 
-/* 🌌 GOLD PARTICLE SYSTEM */
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-for(let i=0;i<150;i++){
-  particles.push({
-    x: Math.random()*canvas.width,
-    y: Math.random()*canvas.height,
-    r: Math.random()*2,
-    d: Math.random()*1.2
-  });
+/* ✨ particles */
+for(let i=0;i<40;i++){
+  let p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"%";
+  p.style.animationDuration=(4+Math.random()*4)+"s";
+  document.body.appendChild(p);
 }
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="gold";
-
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-  });
-
-  update();
-}
-
-function update(){
-  particles.forEach(p=>{
-    p.y += p.d;
-    if(p.y > canvas.height){
-      p.y = 0;
-      p.x = Math.random()*canvas.width;
-    }
-  });
-}
-
-setInterval(draw,30);
-
-/* ✨ Tap Spark */
-document.addEventListener("click", e=>{
-  let s=document.createElement("div");
-  s.className="spark";
-  s.style.left=e.clientX+"px";
-  s.style.top=e.clientY+"px";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),1000);
-});
 
 </script>
 

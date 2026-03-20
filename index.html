@@ -8,66 +8,90 @@
 body {
   margin: 0;
   overflow: hidden;
-  font-family: serif;
+  font-family: 'Georgia', serif;
   color: gold;
 }
 
-/* 🖼️ HERO BACKGROUND */
-.hero {
+/* 🎥 VIDEO BG */
+video {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: 
-    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.95)),
-    url('https://images.unsplash.com/photo-1587613752236-5f0c5c1b8c1d'); /* change image */
-  background-size: cover;
-  background-position: center;
+  object-fit: cover;
+  filter: brightness(0.4) blur(2px);
+  z-index: -2;
+}
+
+/* 🖤 OVERLAY */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent, #000 90%);
+  z-index: -1;
+}
+
+/* 🌙 MOON (PARALLAX FLOAT) */
+.moon {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  width: 90px;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 25px gold);
+  animation: floatMoon 4s ease-in-out infinite;
+}
+
+@keyframes floatMoon {
+  0% { transform: translate(-50%, 0px); }
+  50% { transform: translate(-50%, 10px); }
+  100% { transform: translate(-50%, 0px); }
 }
 
 /* 💎 TEXT */
 .text {
   position: absolute;
-  top: 30%;
+  top: 28%;
   width: 100%;
   text-align: center;
-  animation: fade 2s ease forwards;
 }
 
-@keyframes fade {
-  from { opacity: 0; transform: translateY(60px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* ✍️ Arabic */
 .arabic {
-  font-size: 46px;
-  text-shadow: 0 0 20px gold, 0 0 50px gold;
+  font-size: 48px;
+  text-shadow: 0 0 20px gold, 0 0 60px gold;
 }
 
+/* 💠 English glass */
 .english {
   font-size: 38px;
   margin-top: 10px;
-  font-style: italic;
   background: linear-gradient(90deg, gold, white, gold);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.dua {
+/* ⌨️ TYPEWRITER */
+.typewriter {
   margin-top: 20px;
   font-size: 15px;
-  padding: 0 25px;
   color: #ddd;
-  line-height: 1.7;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border-right: 2px solid gold;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
+/* 👑 FROM */
 .from {
-  margin-top: 15px;
-  font-size: 16px;
+  margin-top: 25px;
   letter-spacing: 3px;
   text-shadow: 0 0 10px gold;
 }
 
-/* ✨ GOLD PARTICLES */
+/* ✨ PARTICLES */
 .particle {
   position: absolute;
   width: 3px;
@@ -78,38 +102,77 @@ body {
 }
 
 @keyframes float {
-  from { transform: translateY(100vh); opacity: 1; }
+  from { transform: translateY(100vh); }
   to { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* 💥 RIPPLE */
+.ripple {
+  position: absolute;
+  border: 2px solid gold;
+  border-radius: 50%;
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  from { width: 10px; height: 10px; opacity: 1; }
+  to { width: 200px; height: 200px; opacity: 0; }
 }
 </style>
 </head>
 
-<body>
+<body onclick="startAll(event)">
 
-<div class="hero"></div>
+<video autoplay muted loop>
+  <source src="hero.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<img src="moon.jpg" class="moon">
 
 <div class="text">
   <div class="arabic">عِيد مُبَارَك</div>
   <div class="english">Eid Mubarak</div>
 
-  <div class="dua">
-    Taqabbal Allahu minna wa minkum صالح الأعمال 🤍<br><br>
-    May Allah accept our prayers, forgive our sins,<br>
-    and fill our lives with noor, barakah and peace ✨
-  </div>
+  <div class="typewriter" id="type"></div>
 
   <div class="from">— SHABAZ & FAMILY —</div>
 </div>
 
-<!-- 🎵 YOUR MUSIC -->
-<audio autoplay loop>
-  <source src="YOUR-MUSIC.mp3" type="audio/mpeg">
+<audio id="music" loop>
+  <source src="eidmub.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-/* ✨ particles */
-for(let i=0;i<40;i++){
+/* ⌨️ TYPEWRITER */
+let txt = "Taqabbal Allahu minna wa minkum صالح الأعمال 🤍   May Allah fill your life with noor, barakah and peace ✨   Eid Mubarak 🌙";
+let i=0;
+function type(){
+  if(i<txt.length){
+    document.getElementById("type").innerHTML += txt.charAt(i);
+    i++;
+    setTimeout(type,35);
+  }
+}
+type();
+
+/* 🎵 START ALL */
+function startAll(e){
+  document.getElementById("music").play();
+
+  /* ripple */
+  let r=document.createElement("div");
+  r.className="ripple";
+  r.style.left=e.clientX+"px";
+  r.style.top=e.clientY+"px";
+  document.body.appendChild(r);
+  setTimeout(()=>r.remove(),1000);
+}
+
+/* ✨ PARTICLES */
+for(let i=0;i<60;i++){
   let p=document.createElement("div");
   p.className="particle";
   p.style.left=Math.random()*100+"%";

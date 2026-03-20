@@ -8,110 +8,104 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: radial-gradient(circle at top, #0a0a0a, #000);
-  font-family: serif;
-  text-align: center;
+  background: radial-gradient(circle at top, #050505, #000000 70%);
+  font-family: 'Georgia', serif;
   color: gold;
 }
 
-/* 🌙 Moon */
+/* 🌌 Background particles */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* 🌙 Crescent */
 .moon {
   position: absolute;
   top: 8%;
   left: 50%;
-  width: 90px;
-  height: 90px;
-  background: radial-gradient(circle, gold, transparent);
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
+  box-shadow: -25px 0 0 5px gold;
   transform: translateX(-50%);
-  animation: pulse 3s infinite alternate;
+  animation: glow 3s infinite alternate;
 }
 
-@keyframes pulse {
+@keyframes glow {
   from { opacity: 0.6; }
-  to { opacity: 1; transform: translateX(-50%) scale(1.1); }
+  to { opacity: 1; }
 }
 
 /* 🏮 Lantern */
 .lantern {
   position: absolute;
-  top: -40px;
-  width: 30px;
-  height: 50px;
-  background: gold;
+  top: -60px;
+  width: 35px;
+  height: 55px;
+  background: linear-gradient(gold, #ffcc00);
   border-radius: 10px;
-  box-shadow: 0 0 20px gold;
+  box-shadow: 0 0 30px gold;
   animation: swing 4s infinite ease-in-out;
 }
 
 @keyframes swing {
-  0% { transform: rotate(-10deg); }
-  50% { transform: rotate(10deg); }
-  100% { transform: rotate(-10deg); }
+  0% { transform: rotate(-12deg); }
+  50% { transform: rotate(12deg); }
+  100% { transform: rotate(-12deg); }
 }
 
-/* ✨ Text */
+/* 💎 Glass Text */
 .text {
   position: absolute;
   top: 40%;
   width: 100%;
+  text-align: center;
+  z-index: 2;
   opacity: 0;
   animation: fadeUp 2.5s ease forwards 1s;
-  padding: 0 10px;
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(40px); }
+  from { opacity: 0; transform: translateY(50px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .arabic {
-  font-size: 34px;
+  font-size: 40px;
+  text-shadow: 0 0 20px gold, 0 0 40px gold;
 }
 
 .english {
-  font-size: 28px;
-  font-style: italic;
+  font-size: 34px;
+  margin-top: 10px;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, gold, white, gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .from {
-  font-size: 16px;
-  margin-top: 10px;
+  margin-top: 15px;
+  font-size: 18px;
+  letter-spacing: 3px;
 }
 
-/* 💎 Glow */
-.glow {
-  text-shadow: 0 0 10px gold, 0 0 20px gold;
-}
-
-/* ✨ Stars */
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: gold;
-  animation: twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle {
-  from { opacity: 0.3; }
-  to { opacity: 1; }
-}
-
-/* 💠 Tap Spark */
+/* ✨ Glow particles click */
 .spark {
   position: absolute;
   width: 6px;
   height: 6px;
   background: gold;
   border-radius: 50%;
-  pointer-events: none;
   animation: explode 1s forwards;
 }
 
 @keyframes explode {
   to {
-    transform: scale(4) translateY(-40px);
+    transform: scale(5) translateY(-50px);
     opacity: 0;
   }
 }
@@ -122,62 +116,93 @@ body {
   bottom: 20px;
   right: 20px;
   background: gold;
-  color: black;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  font-size: 18px;
   border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+  z-index: 3;
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="bg"></canvas>
+
 <div class="moon"></div>
-<div class="lantern" style="left:20%"></div>
-<div class="lantern" style="left:80%"></div>
+<div class="lantern" style="left:15%"></div>
+<div class="lantern" style="left:85%"></div>
 
 <div class="text">
-  <div class="arabic glow">عِيد مُبَارَك</div>
-  <div class="english glow">Eid Mubarak</div>
-  <div class="from glow">From SHABAZ & FAMILY</div>
+  <div class="arabic">عِيد مُبَارَك</div>
+  <div class="english">EID MUBARAK</div>
+  <div class="from">— SHABAZ & FAMILY —</div>
 </div>
 
 <button class="music-btn" onclick="toggleMusic()">🎵</button>
+
 <audio id="bgMusic" loop>
   <source src="https://www.computerhope.com/jargon/m/example.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-/* Stars */
-for(let i=0;i<60;i++){
-  let s=document.createElement("div");
-  s.className="star";
-  s.style.top=Math.random()*100+"%";
-  s.style.left=Math.random()*100+"%";
-  document.body.appendChild(s);
+/* 🌌 Premium particle background */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<100;i++){
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*2,
+    d: Math.random()*1
+  });
 }
 
-/* Tap spark effect */
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="gold";
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+  });
+  update();
+}
+
+function update(){
+  particles.forEach(p=>{
+    p.y += p.d;
+    if(p.y > canvas.height){
+      p.y = 0;
+      p.x = Math.random()*canvas.width;
+    }
+  });
+}
+
+setInterval(draw,30);
+
+/* ✨ Tap spark */
 document.addEventListener("click", e=>{
-  let spark=document.createElement("div");
-  spark.className="spark";
-  spark.style.left=e.clientX+"px";
-  spark.style.top=e.clientY+"px";
-  document.body.appendChild(spark);
-  setTimeout(()=>spark.remove(),1000);
+  let s=document.createElement("div");
+  s.className="spark";
+  s.style.left=e.clientX+"px";
+  s.style.top=e.clientY+"px";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),1000);
 });
 
-/* Music toggle */
+/* 🎵 Music */
 let music=document.getElementById("bgMusic");
 function toggleMusic(){
-  if(music.paused){
-    music.play();
-  } else {
-    music.pause();
-  }
+  music.paused ? music.play() : music.pause();
 }
 
 </script>
